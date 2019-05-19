@@ -2,6 +2,7 @@ package message
 
 const (
 	LoginMesType ="LoginMes"
+	RegisterMesType ="RegisterMes"
 	LoginResMesType ="LoginResMes"
 )
 
@@ -21,4 +22,11 @@ type LoginMessage struct {
 type LoginResMessage struct {
 	Code int // 返回状态码
 	Error string //返回错误信息
+}
+
+//注册结构体
+type RegisterMessage struct {
+	UserId  int //用户id
+	UserPwd  string //用户密码
+	UserName string //用户昵称
 }

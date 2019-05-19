@@ -1,6 +1,7 @@
 package main
 
 import (
+	"chat/common/utils"
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
@@ -13,7 +14,7 @@ func Login(userId int,userPwd string) (err error)  {
 	//return nil
 
 	//链接服务器
-	conn,err:= net.Dial("tcp","169.254.223.112:8789")
+	conn,err:= net.Dial("tcp","192.168.0.104:8789")
 
 	if err != nil{
 		fmt.Println("net.Dial err=",err)
@@ -73,5 +74,21 @@ func Login(userId int,userPwd string) (err error)  {
 		return
 	}
 	fmt.Println("客户端，发送的消息成功")
+
+	//取出服务端返回端状态信息
+	mes,err = utils.ReadData(conn)
+	if  err != nil{
+		fmt.Println("utils.ReadData fail",err)
+		return
+	}
+	var loginResMes message.LoginResMessage
+	err = json.Unmarshal([]byte(mes.Data),&loginResMes)
+
+	if loginResMes.Code == 200 {
+		fmt.Println("登陆成功")
+	}else if loginResMes.Code == 404 {
+		fmt.Println(loginResMes.Error)
+	}
+
 	return
 }
