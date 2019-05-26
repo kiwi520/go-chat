@@ -76,7 +76,12 @@ func Login(userId int,userPwd string) (err error)  {
 	fmt.Println("客户端，发送的消息成功")
 
 	//取出服务端返回端状态信息
-	mes,err = utils.ReadData(conn)
+
+	var rd = utils.TransferUtils{
+		Conn: conn,
+	}
+
+	mes,err = rd.ReadData()
 	if  err != nil{
 		fmt.Println("utils.ReadData fail",err)
 		return
